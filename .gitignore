@@ -10,6 +10,9 @@ node_modules/
 # testing
 /coverage
 
+#temporary images files and products.js
+/frontend/public/images
+/frontend/src/products.js
 # production
 /build
 
