@@ -33,3 +33,4 @@ yarn-error.log*
 
 #backend files to ignore
 /backend/data/products.js
+/backend/data/users.js
