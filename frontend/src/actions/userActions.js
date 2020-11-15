@@ -38,3 +38,10 @@ export const login = ( email, password ) => async(dispatch) => {
     }
 
 }
+
+export const logout = () => (dispatc) => {
+    localStorage.removeItem('userInfo')
+    dispatc({
+        type: USER_LOGOUT
+    })
+}
