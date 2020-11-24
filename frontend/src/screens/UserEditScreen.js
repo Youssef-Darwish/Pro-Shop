@@ -6,9 +6,9 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 import { getUserDetails, updateUser } from "../actions/userActions";
-import { USER_UPDATE_RESET } from "../actions/userActions";
+import { USER_UPDATE_RESET } from "../constants/userConstants";
 
-const UserEditScreen = ({ history }) => {
+const UserEditScreen = ({ history, match }) => {
   const userId = match.params.id;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -24,7 +24,6 @@ const UserEditScreen = ({ history }) => {
     loading: loadingUpdate,
     error: errorUpdate,
     success: successUpdate,
-    user,
   } = userUpdate;
 
   useEffect(() => {
