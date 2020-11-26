@@ -26,7 +26,7 @@ function checkFileType(file, cb) {
   if (extensionNameMatch && mimeTypeMatch) {
     return cb(null, true);
   } else {
-    cb("Images only allowe");
+    cb("Images only allowed");
   }
 }
 const upload = multer({
