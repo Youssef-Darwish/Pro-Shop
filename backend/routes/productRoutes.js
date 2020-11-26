@@ -9,11 +9,10 @@ const {
   updateProduct,
 } = require("../controllers/productController");
 
-router.route("/").get(getProducts);
+router.route("/").get(getProducts).post(protect, admin, createProduct);
 router
   .route("/:id")
   .get(getProductById)
   .delete(protect, admin, deleteProductById)
-  .post(protect, admin, createProduct)
   .put(protect, admin, updateProduct);
 module.exports = router;
