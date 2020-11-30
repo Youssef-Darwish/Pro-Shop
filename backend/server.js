@@ -1,6 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const path = require("path");
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -11,7 +13,15 @@ dotenv.config();
 
 connectDB();
 const app = express();
-app.use(express.json());
+
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+
+app.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies
+app.use(bodyParser.json()); // Send JSON responses
+
+// app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("API is running");
