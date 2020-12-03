@@ -9,8 +9,20 @@ const userRoutes = require("./routes/userRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
-dotenv.config();
+const log4js = require("log4js");
+const logger = log4js.getLogger("Server.js");
 
+log4js.configure({
+  appenders: {
+    console: { type: "console" },
+    file: { type: "fileSync", filename: "logs/server_logs.log" },
+  },
+  categories: {
+    default: { appenders: ["file", "console"], level: "DEBUG" },
+  },
+});
+
+dotenv.config();
 connectDB();
 const app = express();
 
@@ -38,11 +50,12 @@ app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 // Not found and error handler middlewares
 app.use(notFound);
 app.use(errorHandler);
+app.use(log4js.connectLogger(log4js.getLogger("http"), { level: "auto" }));
 
 const PORT = process.env.PORT || 5000;
 app.listen(
   PORT,
-  console.log(
+  logger.debug(
     `Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`
   )
 );

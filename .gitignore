@@ -12,7 +12,7 @@ node_modules/
 
 #debug log
 /frontend/debug.log
-
+/logs
 #temporary images files and products.js
 /frontend/public/images
 /frontend/src/products.js
