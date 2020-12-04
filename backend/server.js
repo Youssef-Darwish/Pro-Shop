@@ -50,7 +50,6 @@ app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 // Not found and error handler middlewares
 app.use(notFound);
 app.use(errorHandler);
-app.use(log4js.connectLogger(log4js.getLogger("http"), { level: "auto" }));
 
 const PORT = process.env.PORT || 5000;
 app.listen(

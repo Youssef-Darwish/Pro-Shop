@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
   filename(req, file, cb) {
     cb(
       null,
-      `${file.filename}-${Date.now()}${path.extname(file.originalname)}`
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
     );
   },
 });
@@ -21,7 +21,7 @@ function checkFileType(file, cb) {
   const extensionNameMatch = fileTypes.test(
     path.extname(file.originalname).toLowerCase()
   );
-  const mimeTypeMatch = fileTypes.test(file.mimeType);
+  const mimeTypeMatch = fileTypes.test(file.mimetype);
 
   if (extensionNameMatch && mimeTypeMatch) {
     return cb(null, true);
