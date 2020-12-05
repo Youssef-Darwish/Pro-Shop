@@ -24,37 +24,39 @@ log4js.configure({
 
 dotenv.config();
 connectDB();
-const app = express();
+const server = express();
 
 if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
+  server.use(morgan("dev"));
 }
 
-app.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies
-app.use(bodyParser.json()); // Send JSON responses
+server.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies
+server.use(bodyParser.json()); // Send JSON responses
 
 // app.use(express.json());
 
-app.get("/", (req, res) => {
+server.get("/", (req, res) => {
   res.send("API is running");
 });
 
-app.use("/api/products", productRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/upload", uploadRoutes);
+server.use("/api/products", productRoutes);
+server.use("/api/users", userRoutes);
+server.use("/api/orders", orderRoutes);
+server.use("/api/upload", uploadRoutes);
 
 // make uploads folder static to be accessible
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+server.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 // Not found and error handler middlewares
-app.use(notFound);
-app.use(errorHandler);
+server.use(notFound);
+server.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(
+server.listen(
   PORT,
   logger.debug(
     `Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`
   )
 );
+
+module.exports = server;
