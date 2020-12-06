@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Order = require("../models/orderModel");
+const log4js = require("log4js");
+const logger = log4js.getLogger("orderController.js");
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -78,4 +80,13 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { addOrderItems, getOrderById, updateOrderToPaid };
+// @desc    Get all orders
+// @route   Get /api/orders
+// @access  Private/Admin
+const getOrders = asyncHandler(async (req, res) => {
+  const orders = Order.find({}).populate("user", "id name");
+  logger.debug(`${req.method} ${req.originalUrl}  ${res.statusCode}`);
+  res.json(orders);
+});
+
+module.exports = { addOrderItems, getOrderById, updateOrderToPaid, getOrders };
