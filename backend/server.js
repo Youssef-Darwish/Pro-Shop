@@ -47,6 +47,10 @@ server.use("/api/upload", uploadRoutes);
 // make uploads folder static to be accessible
 server.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
+server.get("/api/config/paypal", (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT_ID)
+);
+
 // Not found and error handler middlewares
 server.use(notFound);
 server.use(errorHandler);
