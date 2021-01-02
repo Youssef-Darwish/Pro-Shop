@@ -13,7 +13,7 @@ const {
 const { protect, admin } = require("../middleware/authMiddleware");
 
 router.post("/login", authUser);
-router.route("/", registerUser).get(protect, admin, getUsers);
+router.route("/").post(registerUser).get(protect, admin, getUsers);
 //protect the route by passing the middleware as first argument
 router.route("/profile").get(protect, getUserProfile);
 router.route("/profile").put(protect, updateUserProfile);

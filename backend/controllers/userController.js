@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../utils/generateToken");
+const { sendWelcomeEmail } = require("../mailers/WelcomeEmail");
 const log4js = require("log4js");
 const logger = log4js.getLogger("userController.js");
 
@@ -47,6 +48,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (user) {
     logger.debug(`${req.method} ${req.originalUrl}  ${res.statusCode}`);
+    sendWelcomeEmail(user.email);
     res.status(201).json({
       _id: user._id,
       name: user.name,
