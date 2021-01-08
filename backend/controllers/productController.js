@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const mongoose = require("mongoose");
 const Product = require("../models/productModel");
 const log4js = require("log4js");
 const logger = log4js.getLogger("productController.js");
@@ -113,7 +114,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
   if (product) {
     const alreadyReviewed = product.reviews.find(
-      (review) => review.user.toString() === req.user._id
+      (review) => review.user.toString() === req.user._id.toString()
     );
     if (alreadyReviewed) {
       res.status(400);
