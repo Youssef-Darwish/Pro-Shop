@@ -18,6 +18,7 @@ import {
   ORDER_DELIVER_FAIL,
   ORDER_DELIVER_RESET,
 } from "../constants/orderConstants";
+import { setErrorActionPayload } from "./actionsUtils";
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
@@ -46,10 +47,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_CREATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: setErrorActionPayload(error),
     });
   }
 };
@@ -79,10 +77,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_DETAILS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: setErrorActionPayload(error),
     });
   }
 };
@@ -118,10 +113,7 @@ export const payOrder = (orderId, paymentResult) => async (
   } catch (error) {
     dispatch({
       type: ORDER_PAY_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: setErrorActionPayload(error),
     });
   }
 };
@@ -150,10 +142,7 @@ export const listOrders = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: setErrorActionPayload(error),
     });
   }
 };
@@ -185,10 +174,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_DELIVER_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: setErrorActionPayload(error),
     });
   }
 };

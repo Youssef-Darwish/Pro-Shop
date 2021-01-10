@@ -19,6 +19,7 @@ import {
   PRODUCT_CREATE_REVIEW_SUCCESS,
   PRODUCT_CREATE_REVIEW_FAIL,
 } from "../constants/productConstants";
+import { setErrorActionPayload } from "./actionsUtils";
 
 export const listProducts = (keyword = "") => async (dispatch) => {
   try {
@@ -31,10 +32,7 @@ export const listProducts = (keyword = "") => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: setErrorActionPayload(error),
     });
   }
 };
@@ -52,10 +50,7 @@ export const listProductDetails = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_DETAILS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: setErrorActionPayload(error),
     });
   }
 };
@@ -84,10 +79,7 @@ export const deleteProduct = (productId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_DELETE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: setErrorActionPayload(error),
     });
   }
 };
@@ -116,10 +108,7 @@ export const createProduct = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_CREATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: setErrorActionPayload(error),
     });
   }
 };
@@ -153,10 +142,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_UPDATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: setErrorActionPayload(error),
     });
   }
 };
@@ -189,10 +175,7 @@ export const createProductReview = (productId, review) => async (
   } catch (error) {
     dispatch({
       type: PRODUCT_CREATE_REVIEW_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: setErrorActionPayload(error),
     });
   }
 };
