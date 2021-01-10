@@ -18,7 +18,11 @@ import {
   ORDER_DELIVER_FAIL,
   ORDER_DELIVER_RESET,
 } from "../constants/orderConstants";
-import { setErrorActionPayload } from "./actionsUtils";
+import {
+  setErrorActionPayload,
+  setPrivateGetRequestHeaders,
+  setPrivatePostRequestHeaders,
+} from "./actionsUtils";
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
@@ -30,13 +34,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    //send headers content
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+    const config = setPrivatePostRequestHeaders(userInfo);
     console.log(order);
     const { data } = await axios.post(`/api/orders`, order, config);
 
@@ -62,12 +60,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    //send headers content
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+    const config = setPrivateGetRequestHeaders(userInfo);
     const { data } = await axios.get(`/api/orders/${id}`, config);
 
     dispatch({
@@ -93,13 +86,7 @@ export const payOrder = (orderId, paymentResult) => async (
     const {
       userLogin: { userInfo },
     } = getState();
-    //send headers content
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+    const config = setPrivatePostRequestHeaders(userInfo);
     const { data } = await axios.put(
       `/api/orders/${orderId}/pay`,
       paymentResult,
@@ -128,11 +115,7 @@ export const listOrders = () => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+    const config = setPrivateGetRequestHeaders(userInfo);
     const { data } = await axios.get(`/api/orders/`, config);
 
     dispatch({
@@ -156,11 +139,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+    const config = setPrivateGetRequestHeaders(userInfo);
     const { data } = await axios.put(
       `/api/orders/${order._id}/deliver`,
       {},

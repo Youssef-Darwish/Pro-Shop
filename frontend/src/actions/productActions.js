@@ -19,7 +19,11 @@ import {
   PRODUCT_CREATE_REVIEW_SUCCESS,
   PRODUCT_CREATE_REVIEW_FAIL,
 } from "../constants/productConstants";
-import { setErrorActionPayload } from "./actionsUtils";
+import {
+  setErrorActionPayload,
+  setPrivateGetRequestHeaders,
+  setPrivatePostRequestHeaders,
+} from "./actionsUtils";
 
 export const listProducts = (keyword = "") => async (dispatch) => {
   try {
@@ -57,25 +61,16 @@ export const listProductDetails = (id) => async (dispatch) => {
 
 export const deleteProduct = (productId) => async (dispatch, getState) => {
   try {
-    dispatch({
-      type: PRODUCT_DELETE_REQUEST,
-    });
+    dispatch({ type: PRODUCT_DELETE_REQUEST });
 
     const {
       userLogin: { userInfo },
     } = getState();
 
-    //send headers content
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+    const config = setPrivateGetRequestHeaders(userInfo);
     await axios.delete(`/api/products/${productId}`, config);
 
-    dispatch({
-      type: PRODUCT_DELETE_SUCCESS,
-    });
+    dispatch({ type: PRODUCT_DELETE_SUCCESS });
   } catch (error) {
     dispatch({
       type: PRODUCT_DELETE_FAIL,
@@ -85,20 +80,13 @@ export const deleteProduct = (productId) => async (dispatch, getState) => {
 };
 export const createProduct = () => async (dispatch, getState) => {
   try {
-    dispatch({
-      type: PRODUCT_CREATE_REQUEST,
-    });
+    dispatch({ type: PRODUCT_CREATE_REQUEST });
 
     const {
       userLogin: { userInfo },
     } = getState();
 
-    //send headers content
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+    const config = setPrivatePostRequestHeaders(userInfo);
     const { data } = await axios.post(`/api/products/`, {}, config);
 
     dispatch({
@@ -114,21 +102,13 @@ export const createProduct = () => async (dispatch, getState) => {
 };
 export const updateProduct = (product) => async (dispatch, getState) => {
   try {
-    dispatch({
-      type: PRODUCT_UPDATE_REQUEST,
-    });
+    dispatch({ type: PRODUCT_UPDATE_REQUEST });
 
     const {
       userLogin: { userInfo },
     } = getState();
 
-    //send headers content
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+    const config = setPrivatePostRequestHeaders(userInfo);
     const { data } = await axios.put(
       `/api/products/${product._id}`,
       product,
@@ -152,21 +132,13 @@ export const createProductReview = (productId, review) => async (
   getState
 ) => {
   try {
-    dispatch({
-      type: PRODUCT_CREATE_REVIEW_REQUEST,
-    });
+    dispatch({ type: PRODUCT_CREATE_REVIEW_REQUEST });
 
     const {
       userLogin: { userInfo },
     } = getState();
 
-    //send headers content
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+    const config = setPrivatePostRequestHeaders(userInfo);
     await axios.post(`/api/products/${productId}/reviews`, review, config);
 
     dispatch({
