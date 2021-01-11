@@ -17,6 +17,9 @@ import {
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
   ORDER_DELIVER_RESET,
+  LIST_USER_ORDERS_REQUEST,
+  LIST_USER_ORDERS_SUCCESS,
+  LIST_USER_ORDERS_FAIL,
 } from "../constants/orderConstants";
 import {
   setErrorActionPayload,
@@ -129,6 +132,32 @@ export const listOrders = () => async (dispatch, getState) => {
     });
   }
 };
+
+export const listUserOrders = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: LIST_USER_ORDERS_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = setPrivateGetRequestHeaders(userInfo);
+    const { data } = await axios.get(`/api/orders/myorders`, config);
+
+    dispatch({
+      type: LIST_USER_ORDERS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: LIST_USER_ORDERS_FAIL,
+      payload: setErrorActionPayload(error),
+    });
+  }
+};
+
 export const deliverOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({
