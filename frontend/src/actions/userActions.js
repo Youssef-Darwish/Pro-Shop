@@ -24,7 +24,9 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_RESET,
+  USER_DETAILS_RESET,
 } from "../constants/userConstants";
+import { LIST_USER_ORDERS_RESET } from "../constants/orderConstants";
 import {
   setErrorActionPayload,
   setPrivateGetRequestHeaders,
@@ -59,6 +61,8 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_LIST_RESET });
+  dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: LIST_USER_ORDERS_RESET });
 };
 
 export const register = (name, email, password) => async (dispatch) => {
