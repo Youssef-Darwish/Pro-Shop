@@ -147,6 +147,15 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get top rated products
+// @route   GET /api/products/top
+// @access  Pulic
+const getTopProducts = asyncHandler(async (req, res) => {
+  const topProducts = await Product.find({}).sort({ rating: -1 }).limit(3);
+  logger.debug(`${req.method} ${req.originalUrl}  ${res.statusCode}`);
+  res.json(topProducts);
+});
+
 module.exports = {
   getProducts,
   getProductById,
@@ -154,4 +163,5 @@ module.exports = {
   createProduct,
   updateProduct,
   createProductReview,
+  getTopProducts,
 };
