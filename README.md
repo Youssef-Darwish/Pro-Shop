@@ -34,19 +34,6 @@ Express, React and Nodejs that has the main features of ecommerce platform: </p>
 
 <!-- GETTING STARTED -->
 
-## Getting Started
-
-write how to install and files needed
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
 ### Installation
 
 1. Clone the repo
@@ -57,7 +44,7 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    npm install
    ```
-3. Enter your API in `config.js`
+3. Enter your API in `.env`
 
    ```JS
    NODE_ENV = 'Node js Environment';
@@ -67,10 +54,15 @@ This is an example of how to list things you need to use the software and how to
    SENDGRID_API_KEY = "Your Sendgrid API KEY"
    SENDGRID_VERIFIED_SENDER = "Your Sendgrid Verified Sender"
    PAYPAL_CLIENT_ID = "Your PAYPAL CLIENT ID"
-
    ```
 
-<!-- LICENSE -->
+4. Run both the server and client
+
+   ```JS
+   npm run dev
+   ```
+
+   <!-- LICENSE -->
 
 ## License
 
