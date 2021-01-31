@@ -10,18 +10,10 @@ const logger = log4js.getLogger("productController.js");
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
-  const keyword = req.query.keyword
-    ? {
-        name: {
-          $regex: req.query.keyword,
-          $options: "i",
-        },
-      }
-    : {};
-
+  const filter = getFilterConditions(req);
   logger.debug(`${req.method} ${req.originalUrl}  ${res.statusCode}`);
-  const count = await Product.countDocuments({ ...keyword });
-  const products = await Product.find({ ...keyword })
+  const count = await Product.countDocuments(filter);
+  const products = await Product.find(filter)
     .limit(pageSize)
     .skip(pageSize * (page - 1));
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
@@ -155,6 +147,24 @@ const getTopProducts = asyncHandler(async (req, res) => {
   logger.debug(`${req.method} ${req.originalUrl}  ${res.statusCode}`);
   res.json(topProducts);
 });
+
+const getFilterConditions = (req) => {
+  let filters = {};
+  const { keyword, category } = req.query;
+  if (keyword) {
+    filters = {
+      ...filters,
+      name: {
+        $regex: keyword,
+        $options: "i",
+      },
+    };
+  }
+  if (category) {
+    filters = { ...filters, category: category };
+  }
+  return filters;
+};
 
 module.exports = {
   getProducts,
